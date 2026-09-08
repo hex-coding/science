@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Year 6 Science Flashcards</title>
+  <style>
+    :root {
+      --primary: #2b5c8f;
+      --primary-dark: #20466d;
+      --accent: #e59b32;
+      --background: #f4f7f9;
+      --card-background: #ffffff;
+      --text: #333333;
+      --muted: #647384;
+      --border: #d9e2ea;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: var(--background);
+      color: var(--text);
+      line-height: 1.5;
+      margin: 0;
+      min-height: 100vh;
+      padding: 24px 12px;
+    }
+
+    main {
+      margin: 0 auto;
+      max-width: 760px;
+    }
+
+    header {
+      align-items: center;
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 24px;
+      gap: 16px;
+    }
+
+    h1 {
+      color: var(--primary-dark);
+      font-size: 1.8rem;
+      margin: 0;
+    }
+
+    .back-link {
+      color: var(--primary);
+      white-space: nowrap;
+    }
+
+    .instructions {
+      color: var(--muted);
+      margin: 0 0 12px;
+      text-align: center;
+    }
+
+    .progress {
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin: 0 0 12px;
+      text-align: center;
+    }
+
+    .card {
+      background: var(--card-background);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      cursor: pointer;
+      min-height: 330px;
+      perspective: 1000px;
+      position: relative;
+      width: 100%;
+    }
+
+    .card:focus-visible {
+      outline: 3px solid var(--accent);
+      outline-offset: 4px;
+    }
+
+    .card-inner {
+      min-height: 330px;
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform 0.45s ease;
+    }
+
+    .card.is-revealed .card-inner {
+      transform: rotateY(180deg);
+    }
+
+    .card-face {
+      align-items: center;
+      backface-visibility: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      min-height: 330px;
+      padding: 32px;
+      position: absolute;
+      text-align: center;
+      width: 100%;
+    }
+
+    .card-back {
+      transform: rotateY(180deg);
+    }
+
+    .label {
+      color: var(--accent);
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      margin-bottom: 16px;
+      text-transform: uppercase;
+    }
+
+    .term {
+      color: var(--primary-dark);
+      font-size: clamp(1.7rem, 5vw, 2.5rem);
+      line-height: 1.15;
+      margin: 0;
+    }
+
+    .definition {
+      font-size: clamp(1rem, 2.5vw, 1.2rem);
+      margin: 0;
+      max-width: 620px;
+    }
+
+    .reveal-hint {
+      color: var(--muted);
+      margin: 24px 0 0;
+    }
+
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+      margin-top: 20px;
+    }
+
+    button {
+      background: var(--primary);
+      border: 0;
+      border-radius: 6px;
+      color: white;
+      cursor: pointer;
+      font: inherit;
+      min-height: 44px;
+      padding: 10px 18px;
+    }
+
+    button:hover {
+      background: var(--primary-dark);
+    }
+
+    button:focus-visible,
+    a:focus-visible {
+      outline: 3px solid var(--accent);
+      outline-offset: 3px;
+    }
+
+    .secondary {
+      background: transparent;
+      border: 1px solid var(--primary);
+      color: var(--primary);
+    }
+
+    .secondary:hover {
+      background: #e7eff6;
+    }
+
+    .tip {
+      color: var(--muted);
+      font-size: 0.9rem;
+      margin: 18px 0 0;
+      text-align: center;
+    }
+
+    @media (max-width: 520px) {
+      body {
+        padding-top: 16px;
+      }
+
+      header {
+        align-items: flex-start;
+        flex-direction: column;
+        margin-bottom: 18px;
+      }
+
+      .card,
+      .card-inner,
+      .card-face {
+        min-height: 360px;
+      }
+
+      .card-face {
+        padding: 24px;
+      }
+
+      .controls button {
+        flex: 1 1 42%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <h1>Science Flashcards</h1>
+      <a class="back-link" href="index.html">Back to Year 6 Science</a>
+    </header>
+
+    <p class="instructions">Try to remember the definition, then tap or click the card to reveal it.</p>
+    <p class="progress" id="progress" aria-live="polite"></p>
+
+    <section class="card" id="flashcard" role="button" tabindex="0" aria-label="Reveal definition">
+      <div class="card-inner">
+        <div class="card-face card-front">
+          <div class="label">Term</div>
+          <h2 class="term" id="term"></h2>
+          <p class="reveal-hint">Click to reveal the definition</p>
+        </div>
+        <div class="card-face card-back">
+          <div class="label">Definition</div>
+          <p class="definition" id="definition"></p>
+        </div>
+      </div>
+    </section>
+
+    <div class="controls">
+      <button class="secondary" id="previous" type="button">Previous</button>
+      <button id="reveal" type="button">Reveal answer</button>
+      <button class="secondary" id="next" type="button">Next</button>
+      <button class="secondary" id="shuffle" type="button">Shuffle deck</button>
+    </div>
+
+    <p class="tip">Keyboard: use Space or Enter to reveal, and the arrow keys to move between cards.</p>
+  </main>
+
+  <script>
+    const cards = [
+      { term: "Matter", definition: "Matter is the material from which things are made and takes up space. It can exist as a solid, liquid, or gas." },
+      { term: "Change of State", definition: "Changing state is the term used to describe the process of one state of matter (solid, liquid or gas) changing to another." },
+      { term: "Solid", definition: "A solid substance or object stays the same shape whether it is in a container or not. Solids have a fixed volume and cannot be compressed." },
+      { term: "Liquid", definition: "Liquid is a state of matter that has a definite volume, but no fixed shape. In other words, a liquid takes the shape of its container." },
+      { term: "Gas", definition: "A gas is a state of matter that has no fixed volume or shape. In other words, a gas takes the shape and volume of its container. It can be condensed." },
+      { term: "Evaporation", definition: "Evaporation happens when a liquid turns into a gas." },
+      { term: "Condensation", definition: "Condensation is the change of the state of matter from the gas into the liquid as a result of a decrease in temperature." },
+      { term: "Sublimation", definition: "Sublimation is the conversion between the solid and the gaseous phases of matter, with no intermediate liquid stage. In the water cycle, sublimation is most often used to describe the process of snow and ice changing into water vapor (gas) in the air without first melting into water." },
+      { term: "Melting", definition: "Melting is a change of a solid into a liquid when heat is applied." },
+      { term: "Freeing", definition: "Freezing is when a liquid becomes a solid when the temperature decreases." },
+      { term: "The Particle Model", definition: "The particle model is a scientific theory that explains the properties of solids, liquids and gases by suggesting that all matter is made of particles, and that those particles behave differently in solids, liquids, and gases." },
+      { term: "Physical Changes", definition: "Physical changes occur when objects or substances undergo a change that does not change their chemical composition. The change is structurally the same before and after the change." },
+      { term: "Reversible Changes", definition: "A change that can be undone. No new substance is formed." },
+      { term: "Chemical Change", definition: "A chemical change is usually irreversible chemical reaction involving the rearrangement of the atoms of one or more substances and a change in their chemical properties or composition, resulting in the formation of at least one new substance." },
+      { term: "Chemical Reaction", definition: "A chemical reaction is the process where a substance or substances change into different substances by the breaking of the chemical bonds." },
+      { term: "Reactant", definition: "A reactant is a substance or substances at the beginning of chemical reaction or chemical change." },
+      { term: "Product", definition: "A product is the substance or substances formed after a chemical reaction or chemical change has taken place." },
+      { term: "Rusting", definition: "Rusting is a chemical change that happens when iron or steel reacts with oxygen and water, forming a new substance called rust (iron oxide). This process causes the metal to weaken and change colour." },
+      { term: "Burning", definition: "Burning, also called combustion, is a chemical change where a substance reacts quickly with oxygen, producing heat, light, and new substances like ash, smoke, and gases." },
+      { term: "Cooking", definition: "Cooking is a chemical change where heat causes food to transform by breaking down molecules and forming new ones, changing its taste, texture, and appearance." },
+      { term: "Corrosion", definition: "Corrosion is defined as a natural process that causes the transformation of pure metals into undesirable substances when they react with substances like water or air." },
+      { term: "Rusting", definition: "Rusting is when iron is left exposed to moist air, it undergoes a chemical change leading to the formation of a brown powdered mass on the iron called iron oxide." },
+      { term: "Galvanisation", definition: "Galvanisation or galvanising is the process of applying a protective zinc coating to steel or iron, to prevent rusting." },
+      { term: "Cathode Protection", definition: "A method used to stop metal from rusting by attaching it to another metal that will rust instead. This protects the important metal (like the body of a car or a pipeline)." },
+      { term: "Humidity control", definition: "Keeping the air dry to stop rust from forming. If there is less water in the air, it is harder for rust to happen on metal surfaces." }
+    ];
+
+    const flashcard = document.getElementById("flashcard");
+    const term = document.getElementById("term");
+    const definition = document.getElementById("definition");
+    const progress = document.getElementById("progress");
+    const revealButton = document.getElementById("reveal");
+    let currentIndex = 0;
+
+    function renderCard() {
+      const currentCard = cards[currentIndex];
+      term.textContent = currentCard.term;
+      definition.textContent = currentCard.definition;
+      progress.textContent = `Card ${currentIndex + 1} of ${cards.length}`;
+      flashcard.classList.remove("is-revealed");
+      flashcard.setAttribute("aria-label", `Reveal definition for ${currentCard.term}`);
+      revealButton.textContent = "Reveal answer";
+    }
+
+    function toggleAnswer() {
+      const isRevealed = flashcard.classList.toggle("is-revealed");
+      revealButton.textContent = isRevealed ? "Hide answer" : "Reveal answer";
+    }
+
+    function moveCard(direction) {
+      currentIndex = (currentIndex + direction + cards.length) % cards.length;
+      renderCard();
+    }
+
+    function shuffleCards() {
+      for (let index = cards.length - 1; index > 0; index -= 1) {
+        const randomIndex = Math.floor(Math.random() * (index + 1));
+        [cards[index], cards[randomIndex]] = [cards[randomIndex], cards[index]];
+      }
+      currentIndex = 0;
+      renderCard();
+    }
+
+    flashcard.addEventListener("click", toggleAnswer);
+    flashcard.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        toggleAnswer();
+      }
+      if (event.key === "ArrowLeft") {
+        moveCard(-1);
+      }
+      if (event.key === "ArrowRight") {
+        moveCard(1);
+      }
+    });
+    revealButton.addEventListener("click", toggleAnswer);
+    document.getElementById("previous").addEventListener("click", () => moveCard(-1));
+    document.getElementById("next").addEventListener("click", () => moveCard(1));
+    document.getElementById("shuffle").addEventListener("click", shuffleCards);
+
+    renderCard();
+  </script>
+</body>
+</html>

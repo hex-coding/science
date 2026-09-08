@@ -192,6 +192,7 @@
   <header>
     <h1>Chemical Science Revision</h1>
     <p>Year 6 Term 3: Changes & Solutions</p>
+    <a class="back-link" href="index.html">Back to Year 6 Science</a>
   </header>
 
   <!-- SECTION 1 -->
@@ -308,7 +309,7 @@
     <summary>2. Physical Changes</summary>
     <div class="content">
       <p>In a <strong>physical change</strong>, appearance or state changes, but no new substance is formed. Most are reversible.</p>
-      
+
       <strong>Examples:</strong>
       <ul>
         <li>Tearing paper</li>
@@ -347,7 +348,7 @@
     <summary>3. Chemical Changes</summary>
     <div class="content">
       <p>Particles rearrange to form <strong>new substances</strong>. Usually irreversible.</p>
-      
+
       <strong>Signs of Chemical Change:</strong>
       <ul>
         <li>Colour change</li>
@@ -387,7 +388,7 @@
     <summary>4. Corrosion & Preventing Rust</summary>
     <div class="content">
       <p><strong>Rust Equation:</strong> Iron + Oxygen + Water → Rust (Iron Oxide)</p>
-      
+
       <strong>Prevention Methods:</strong>
       <ul>
         <li><strong>Galvanising:</strong> Coating iron/steel with zinc.</li>
@@ -483,7 +484,7 @@
     function checkMCQ(qName, correctVal, feedbackId) {
       const selected = document.querySelector(`input[name="${qName}"]:checked`);
       const feedback = document.getElementById(feedbackId);
-      
+
       if (!selected) {
         feedback.textContent = "Please select an answer!";
         feedback.className = "feedback incorrect";
