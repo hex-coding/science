@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Year 6 Science Revision: Changes & Solutions</title>
+  <style>
+    :root {
+      --primary: #2b5c8f;
+      --accent: #4a90e2;
+      --bg: #f4f7f9;
+      --card-bg: #ffffff;
+      --text: #333333;
+      --correct: #2e7d32;
+      --incorrect: #c62828;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      margin: 0;
+      padding: 12px;
+    }
+
+    header {
+      background: var(--primary);
+      color: white;
+      padding: 16px;
+      border-radius: 10px;
+      text-align: center;
+      margin-bottom: 16px;
+    }
+
+    header h1 {
+      margin: 0 0 6px 0;
+      font-size: 1.4rem;
+    }
+
+    header p {
+      margin: 0;
+      font-size: 0.9rem;
+      opacity: 0.9;
+    }
+
+    details {
+      background: var(--card-bg);
+      margin-bottom: 12px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      overflow: hidden;
+    }
+
+    summary {
+      padding: 14px;
+      font-weight: bold;
+      font-size: 1.1rem;
+      background: #eef4fa;
+      color: var(--primary);
+      cursor: pointer;
+      list-style: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    summary::-webkit-details-marker {
+      display: none;
+    }
+
+    summary::after {
+      content: "►";
+      font-size: 0.8rem;
+      transition: transform 0.2s;
+    }
+
+    details[open] summary::after {
+      transform: rotate(90deg);
+    }
+
+    .content {
+      padding: 14px;
+    }
+
+    .table-wrapper {
+      overflow-x: auto;
+      margin: 12px 0;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+
+    th, td {
+      border: 1px solid #dddddd;
+      text-align: left;
+      padding: 8px;
+    }
+
+    th {
+      background-color: #f0f0f0;
+    }
+
+    input[type="text"] {
+      width: 90%;
+      padding: 6px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 0.85rem;
+    }
+
+    .dig-deeper {
+      background: #e8f4f8;
+      border-left: 4px solid var(--accent);
+      padding: 10px 12px;
+      margin: 12px 0;
+      border-radius: 0 6px 6px 0;
+      font-size: 0.9rem;
+    }
+
+    .quiz-box {
+      background: #fafafa;
+      border: 1px solid #eaeaea;
+      padding: 12px;
+      border-radius: 6px;
+      margin-top: 14px;
+    }
+
+    .quiz-q {
+      font-weight: bold;
+      margin-bottom: 8px;
+      font-size: 0.95rem;
+    }
+
+    .option-label {
+      display: block;
+      margin: 6px 0;
+      padding: 6px;
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 0.9rem;
+    }
+
+    .feedback {
+      margin-top: 6px;
+      font-weight: bold;
+      font-size: 0.85rem;
+    }
+
+    .correct { color: var(--correct); }
+    .incorrect { color: var(--incorrect); }
+
+    ul, ol {
+      padding-left: 20px;
+      margin: 8px 0;
+    }
+
+    li {
+      margin-bottom: 6px;
+      font-size: 0.95rem;
+    }
+
+    .checklist-item {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 10px;
+    }
+
+    .checklist-item input {
+      margin-top: 4px;
+      margin-right: 10px;
+    }
+
+    button.check-btn {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 4px;
+      font-size: 0.85rem;
+      cursor: pointer;
+      margin-top: 6px;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Chemical Science Revision</h1>
+    <p>Year 6 Term 3: Changes & Solutions</p>
+  </header>
+
+  <!-- SECTION 1 -->
+  <details>
+    <summary>1. States of Matter & Particle Model</summary>
+    <div class="content">
+      <p>Everything around you is made of <strong>matter</strong> (has mass and takes up space). It changes state when energy (heat) is added or removed.</p>
+
+      <strong>The Particle Model:</strong>
+      <ul>
+        <li>All matter is made of tiny particles.</li>
+        <li>Particles are constantly moving.</li>
+        <li>There are spaces between particles.</li>
+        <li>Heating makes particles move faster and spread apart; cooling does the opposite.</li>
+      </ul>
+
+      <strong>Comparing States (Practice Table):</strong>
+      <div class="table-wrapper">
+        <table>
+          <tr>
+            <th>Property</th>
+            <th>Solid</th>
+            <th>Liquid</th>
+            <th>Gas</th>
+          </tr>
+          <tr>
+            <td>Particle arrangement</td>
+            <td>Tightly packed, fixed</td>
+            <td><input type="text" placeholder="Close, can flow"></td>
+            <td>Spread far apart, free</td>
+          </tr>
+          <tr>
+            <td>Shape</td>
+            <td><input type="text" placeholder="Fixed shape"></td>
+            <td>Takes container shape</td>
+            <td>Fills container</td>
+          </tr>
+          <tr>
+            <td>Volume</td>
+            <td>Fixed</td>
+            <td>Fixed</td>
+            <td><input type="text" placeholder="No fixed volume"></td>
+          </tr>
+          <tr>
+            <td>Energy</td>
+            <td>Lowest</td>
+            <td><input type="text" placeholder="Medium"></td>
+            <td>Highest</td>
+          </tr>
+          <tr>
+            <td>Compressed?</td>
+            <td>No</td>
+            <td>Very slightly</td>
+            <td><input type="text" placeholder="Yes"></td>
+          </tr>
+        </table>
+      </div>
+
+      <strong>Changes of State:</strong>
+      <div class="table-wrapper">
+        <table>
+          <tr>
+            <th>Change</th>
+            <th>Energy</th>
+            <th>State Change</th>
+            <th>Example</th>
+          </tr>
+          <tr><td>Melting</td><td>Added</td><td>Solid → Liquid</td><td>Chocolate in sun</td></tr>
+          <tr><td>Evaporation</td><td>Added</td><td>Liquid → Gas</td><td>Puddle drying</td></tr>
+          <tr><td>Boiling</td><td>Added</td><td>Liquid → Gas</td><td>Kettle bubbling</td></tr>
+          <tr><td>Condensation</td><td>Removed</td><td>Gas → Liquid</td><td>Dew on grass</td></tr>
+          <tr><td>Freezing</td><td>Removed</td><td>Liquid → Solid</td><td>Icy pole</td></tr>
+          <tr><td>Sublimation</td><td>Added</td><td>Solid → Gas</td><td>Mothball in air</td></tr>
+          <tr><td>Deposition</td><td>Removed</td><td>Gas → Solid</td><td>Frost on car</td></tr>
+        </table>
+      </div>
+
+      <div class="dig-deeper">
+        ✨ <strong>Dig Deeper:</strong> Plasma is a 4th state of matter found in stars and lightning. Sublimation/deposition show the particle model applies to all state changes!
+      </div>
+
+      <!-- Quiz 1 -->
+      <div class="quiz-box">
+        <div class="quiz-q">1. Which state has particles with the most energy?</div>
+        <label class="option-label"><input type="radio" name="q1" value="A"> A) Solid</label>
+        <label class="option-label"><input type="radio" name="q1" value="B"> B) Liquid</label>
+        <label class="option-label"><input type="radio" name="q1" value="C"> C) Gas</label>
+        <button class="check-btn" onclick="checkMCQ('q1', 'C', 'ans1')">Check Answer</button>
+        <div id="ans1" class="feedback"></div>
+      </div>
+
+      <div class="quiz-box">
+        <div class="quiz-q">2. What happens to particles when heated?</div>
+        <label class="option-label"><input type="radio" name="q2" value="A"> A) Stop moving</label>
+        <label class="option-label"><input type="radio" name="q2" value="B"> B) Move slower</label>
+        <label class="option-label"><input type="radio" name="q2" value="C"> C) Move faster & spread apart</label>
+        <button class="check-btn" onclick="checkMCQ('q2', 'C', 'ans2')">Check Answer</button>
+        <div id="ans2" class="feedback"></div>
+      </div>
+
+      <div class="quiz-box">
+        <div class="quiz-q">3. Gas turning directly into a solid is:</div>
+        <label class="option-label"><input type="radio" name="q3" value="A"> A) Sublimation</label>
+        <label class="option-label"><input type="radio" name="q3" value="B"> B) Deposition</label>
+        <label class="option-label"><input type="radio" name="q3" value="C"> C) Condensation</label>
+        <button class="check-btn" onclick="checkMCQ('q3', 'B', 'ans3')">Check Answer</button>
+        <div id="ans3" class="feedback"></div>
+      </div>
+    </div>
+  </details>
+
+  <!-- SECTION 2 -->
+  <details>
+    <summary>2. Physical Changes</summary>
+    <div class="content">
+      <p>In a <strong>physical change</strong>, appearance or state changes, but no new substance is formed. Most are reversible.</p>
+      
+      <strong>Examples:</strong>
+      <ul>
+        <li>Tearing paper</li>
+        <li>Stretching an elastic band</li>
+        <li>Dissolving salt in water</li>
+        <li>Crushing ice</li>
+      </ul>
+
+      <div class="dig-deeper">
+        ✨ <strong>Dig Deeper:</strong> Test rule: Could you theoretically get the original back using only physical processes (filtering, melting, freezing)? If yes = physical change!
+      </div>
+
+      <!-- Quiz 2 -->
+      <div class="quiz-box">
+        <div class="quiz-q">1. Which is a physical change?</div>
+        <label class="option-label"><input type="radio" name="q4" value="A"> A) Burning paper</label>
+        <label class="option-label"><input type="radio" name="q4" value="B"> B) Cooking an egg</label>
+        <label class="option-label"><input type="radio" name="q4" value="C"> C) Stretching a rubber band</label>
+        <button class="check-btn" onclick="checkMCQ('q4', 'C', 'ans4')">Check Answer</button>
+        <div id="ans4" class="feedback"></div>
+      </div>
+
+      <div class="quiz-box">
+        <div class="quiz-q">2. Which is NOT a physical change?</div>
+        <label class="option-label"><input type="radio" name="q5" value="A"> A) Crushing ice</label>
+        <label class="option-label"><input type="radio" name="q5" value="B"> B) Milk turning sour</label>
+        <label class="option-label"><input type="radio" name="q5" value="C"> C) Bending a paperclip</label>
+        <button class="check-btn" onclick="checkMCQ('q5', 'B', 'ans5')">Check Answer</button>
+        <div id="ans5" class="feedback"></div>
+      </div>
+    </div>
+  </details>
+
+  <!-- SECTION 3 -->
+  <details>
+    <summary>3. Chemical Changes</summary>
+    <div class="content">
+      <p>Particles rearrange to form <strong>new substances</strong>. Usually irreversible.</p>
+      
+      <strong>Signs of Chemical Change:</strong>
+      <ul>
+        <li>Colour change</li>
+        <li>Gas produced (bubbles/fizz)</li>
+        <li>New smell</li>
+        <li>Light given off</li>
+        <li>Temperature change</li>
+        <li>Solid (precipitate) forms</li>
+      </ul>
+
+      <div class="dig-deeper">
+        ✨ <strong>Dig Deeper:</strong> You don't need all 6 signs! Even 1 clear sign can prove a chemical change occurred.
+      </div>
+
+      <!-- Quiz 3 -->
+      <div class="quiz-box">
+        <div class="quiz-q">1. Sign of a chemical change?</div>
+        <label class="option-label"><input type="radio" name="q6" value="A"> A) Shape change</label>
+        <label class="option-label"><input type="radio" name="q6" value="B"> B) Gas formation</label>
+        <label class="option-label"><input type="radio" name="q6" value="C"> C) Cutting</label>
+        <button class="check-btn" onclick="checkMCQ('q6', 'B', 'ans6')">Check Answer</button>
+        <div id="ans6" class="feedback"></div>
+      </div>
+
+      <div class="quiz-box">
+        <div class="quiz-q">2. Do you need all 6 signs to prove a chemical change?</div>
+        <label class="option-label"><input type="radio" name="q7" value="A"> A) Yes, all 6</label>
+        <label class="option-label"><input type="radio" name="q7" value="B"> B) No, even 1 sign can be enough</label>
+        <button class="check-btn" onclick="checkMCQ('q7', 'B', 'ans7')">Check Answer</button>
+        <div id="ans7" class="feedback"></div>
+      </div>
+    </div>
+  </details>
+
+  <!-- SECTION 4 -->
+  <details>
+    <summary>4. Corrosion & Preventing Rust</summary>
+    <div class="content">
+      <p><strong>Rust Equation:</strong> Iron + Oxygen + Water → Rust (Iron Oxide)</p>
+      
+      <strong>Prevention Methods:</strong>
+      <ul>
+        <li><strong>Galvanising:</strong> Coating iron/steel with zinc.</li>
+        <li><strong>Painting / Oiling:</strong> Creates a physical barrier against air and water.</li>
+        <li><strong>Cathodic Protection:</strong> Attaching a more reactive "sacrificial" metal.</li>
+        <li><strong>Alloying:</strong> Mixing iron with chromium/nickel to form stainless steel.</li>
+        <li><strong>Humidity Control:</strong> Keeping environments dry.</li>
+      </ul>
+
+      <!-- Quiz 4 -->
+      <div class="quiz-box">
+        <div class="quiz-q">1. What 3 things are needed for iron to rust?</div>
+        <label class="option-label"><input type="radio" name="q8" value="A"> A) Heat, light, oxygen</label>
+        <label class="option-label"><input type="radio" name="q8" value="B"> B) Oxygen, water, iron</label>
+        <label class="option-label"><input type="radio" name="q8" value="C"> C) Salt, sugar, water</label>
+        <button class="check-btn" onclick="checkMCQ('q8', 'B', 'ans8')">Check Answer</button>
+        <div id="ans8" class="feedback"></div>
+      </div>
+
+      <div class="quiz-box">
+        <div class="quiz-q">2. What is galvanising?</div>
+        <label class="option-label"><input type="radio" name="q9" value="A"> A) Coating metal with zinc</label>
+        <label class="option-label"><input type="radio" name="q9" value="B"> B) Painting with standard paint</label>
+        <button class="check-btn" onclick="checkMCQ('q9', 'A', 'ans9')">Check Answer</button>
+        <div id="ans9" class="feedback"></div>
+      </div>
+    </div>
+  </details>
+
+  <!-- SECTION 5 -->
+  <details>
+    <summary>5. Solubility & Solutions</summary>
+    <div class="content">
+      <ul>
+        <li><strong>Solute:</strong> Substance that dissolves.</li>
+        <li><strong>Solvent:</strong> Liquid that does the dissolving.</li>
+        <li><strong>Solution:</strong> Solute + Solvent mixture.</li>
+        <li><strong>Saturated:</strong> Can't dissolve any more solute at that temperature.</li>
+      </ul>
+
+      <strong>Dissolving factors:</strong>
+      <ul>
+        <li><strong>Higher Temp:</strong> Dissolves solids faster/more. (<em>Gases behave opposite! Warm drinks go flat faster</em>).</li>
+        <li><strong>Stirring:</strong> Speeds up process.</li>
+        <li><strong>Smaller Particles:</strong> Dissolves faster due to greater surface area.</li>
+      </ul>
+
+      <!-- Quiz 5 -->
+      <div class="quiz-box">
+        <div class="quiz-q">1. Why does a warm soft drink go flat faster than a cold one?</div>
+        <label class="option-label"><input type="radio" name="q10" value="A"> A) Gases are more soluble at higher temps</label>
+        <label class="option-label"><input type="radio" name="q10" value="B"> B) Gases are less soluble at higher temps</label>
+        <button class="check-btn" onclick="checkMCQ('q10', 'B', 'ans10')">Check Answer</button>
+        <div id="ans10" class="feedback"></div>
+      </div>
+    </div>
+  </details>
+
+  <!-- SECTION 6 -->
+  <details>
+    <summary>6. Scientific Method & Variables</summary>
+    <div class="content">
+      <ul>
+        <li><strong>Independent Variable:</strong> What you change.</li>
+        <li><strong>Dependent Variable:</strong> What you measure.</li>
+        <li><strong>Controlled Variables:</strong> What you keep the same for a fair test.</li>
+      </ul>
+
+      <!-- Quiz 6 -->
+      <div class="quiz-box">
+        <div class="quiz-q">1. What is the independent variable?</div>
+        <label class="option-label"><input type="radio" name="q11" value="A"> A) What you measure</label>
+        <label class="option-label"><input type="radio" name="q11" value="B"> B) What you deliberately change</label>
+        <button class="check-btn" onclick="checkMCQ('q11', 'B', 'ans11')">Check Answer</button>
+        <div id="ans11" class="feedback"></div>
+      </div>
+    </div>
+  </details>
+
+  <!-- SELF CHECKLIST -->
+  <details>
+    <summary>📋 Exam Readiness Checklist</summary>
+    <div class="content">
+      <div class="checklist-item"><input type="checkbox"> Explain particle arrangement in solids, liquids, gases.</div>
+      <div class="checklist-item"><input type="checkbox"> Difference between physical & chemical changes.</div>
+      <div class="checklist-item"><input type="checkbox"> List 3 rust prevention methods.</div>
+      <div class="checklist-item"><input type="checkbox"> Define solute, solvent, solution.</div>
+      <div class="checklist-item"><input type="checkbox"> Identify independent, dependent, & controlled variables.</div>
+    </div>
+  </details>
+
+  <script>
+    function checkMCQ(qName, correctVal, feedbackId) {
+      const selected = document.querySelector(`input[name="${qName}"]:checked`);
+      const feedback = document.getElementById(feedbackId);
+      
+      if (!selected) {
+        feedback.textContent = "Please select an answer!";
+        feedback.className = "feedback incorrect";
+        return;
+      }
+
+      if (selected.value === correctVal) {
+        feedback.textContent = "✓ Correct!";
+        feedback.className = "feedback correct";
+      } else {
+        feedback.textContent = "✗ Incorrect. Try again!";
+        feedback.className = "feedback incorrect";
+      }
+    }
+  </script>
+</body>
+</html>
