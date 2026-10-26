@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Year 9 Math Geometry Revision Platform</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body);"></script>
+  <style>
+    .math { font-family: 'KaTeX_Main', 'Times New Roman', serif; }
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-track { background: #f1f5f9; }
+    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+  </style>
+</head>
+<body class="bg-slate-100 text-slate-800 min-h-screen flex flex-col font-sans">
+
+  <!-- Header & Score Tracker -->
+  <header class="bg-indigo-900 text-white sticky top-0 z-30 shadow-md">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
+      <div class="flex items-center gap-3">
+        <div class="bg-indigo-600 p-2 rounded-lg font-bold text-lg">📐</div>
+        <div>
+          <h1 class="text-xl font-bold tracking-tight">Year 9 Geometry Revision</h1>
+          <p class="text-indigo-200 text-xs hidden sm:block">Interactive Multi-Part Practice & Proof Guide</p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-4">
+        <!-- Reference Sheet Toggle Button -->
+        <button onclick="toggleReferenceModal()" class="bg-indigo-700 hover:bg-indigo-600 px-3 py-1.5 rounded-lg text-xs md:text-sm font-medium transition flex items-center gap-1.5 border border-indigo-500 shadow-sm">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+          <span class="hidden sm:inline">Formula & Theorem</span> Cheat Sheet
+        </button>
+
+        <!-- Score Badge -->
+        <div class="bg-indigo-950/80 border border-indigo-700 px-3 py-1 rounded-xl text-right">
+          <div class="text-[10px] uppercase tracking-wider text-indigo-300 font-semibold">Progress</div>
+          <div id="score-display" class="text-sm font-black text-amber-400">0 / 28 Completed</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Navigation Bar (Sections) -->
+  <nav class="bg-white border-b border-slate-200 sticky top-[57px] z-20 shadow-sm">
+    <div class="max-w-6xl mx-auto px-4 flex gap-2 overflow-x-auto py-2 scrollbar-none">
+      <button onclick="filterSection('ALL')" class="nav-tab px-3.5 py-1.5 rounded-lg text-xs md:text-sm font-medium whitespace-nowrap bg-indigo-600 text-white shadow-xs" data-sec="ALL">All Sections</button>
+      <button onclick="filterSection('A')" class="nav-tab px-3.5 py-1.5 rounded-lg text-xs md:text-sm font-medium whitespace-nowrap bg-slate-100 text-slate-600 hover:bg-slate-200" data-sec="A">Sec A: Angles & Lines</button>
+      <button onclick="filterSection('B')" class="nav-tab px-3.5 py-1.5 rounded-lg text-xs md:text-sm font-medium whitespace-nowrap bg-slate-100 text-slate-600 hover:bg-slate-200" data-sec="B">Sec B: Polygons & 3D Solids</button>
+      <button onclick="filterSection('C')" class="nav-tab px-3.5 py-1.5 rounded-lg text-xs md:text-sm font-medium whitespace-nowrap bg-slate-100 text-slate-600 hover:bg-slate-200" data-sec="C">Sec C: Transformations</button>
+      <button onclick="filterSection('D')" class="nav-tab px-3.5 py-1.5 rounded-lg text-xs md:text-sm font-medium whitespace-nowrap bg-slate-100 text-slate-600 hover:bg-slate-200" data-sec="D">Sec D: Congruence & Proof</button>
+    </div>
+  </nav>
+
+  <!-- Main Content Container -->
+  <main class="max-w-5xl mx-auto w-full flex-grow p-4 md:p-6 space-y-6">
+    <!-- Question Cards Container -->
+    <div id="questions-container" class="space-y-6"></div>
+  </main>
+
+  <!-- Reference Sheet Modal -->
+  <div id="reference-modal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex justify-center items-center p-4 hidden">
+    <div class="bg-white rounded-2xl max-w-3xl w-full max-h-[85vh] flex flex-col shadow-2xl border border-slate-200">
+      <div class="p-4 border-b border-slate-200 flex justify-between items-center bg-indigo-50 rounded-t-2xl">
+        <h2 class="text-lg font-bold text-indigo-900 flex items-center gap-2">
+          <span>📖</span> Geometric Formulas & Theorems Cheat Sheet
+        </h2>
+        <button onclick="toggleReferenceModal()" class="text-slate-400 hover:text-slate-600 font-bold p-1 text-xl leading-none">&times;</button>
+      </div>
+
+      <div class="p-6 overflow-y-auto space-y-6 text-xs md:text-sm text-slate-700">
+        <!-- Lines & Angles -->
+        <div>
+          <h3 class="font-bold text-indigo-800 border-b border-indigo-200 pb-1 mb-2 text-base">1. Angles & Lines</h3>
+          <ul class="list-disc pl-5 space-y-1 leading-relaxed">
+            <li><strong>Vertically Opposite Angles:</strong> Are equal ($a = b$).</li>
+            <li><strong>Supplementary Angles:</strong> Sum to $180^\circ$ on a straight line.</li>
+            <li><strong>Complementary Angles:</strong> Sum to $90^\circ$.</li>
+            <li><strong>Parallel Lines Cut by Transversal:</strong>
+              <ul class="list-circle pl-5">
+                <li>Corresponding angles are equal ($F$-shape).</li>
+                <li>Alternate angles are equal ($Z$-shape).</li>
+                <li>Co-interior angles sum to $180^\circ$ ($C$-shape).</li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Triangles -->
+        <div>
+          <h3 class="font-bold text-indigo-800 border-b border-indigo-200 pb-1 mb-2 text-base">2. Triangles & Polygons</h3>
+          <ul class="list-disc pl-5 space-y-1 leading-relaxed">
+            <li><strong>Exterior Angle Theorem:</strong> Exterior angle of a triangle equals the sum of the two opposite interior angles.</li>
+            <li><strong>Interior Angle Sum of Polygon ($n$ sides):</strong> $S = (n - 2) \times 180^\circ$</li>
+            <li><strong>Each Interior Angle (Regular Polygon):</strong> $\frac{(n - 2) \times 180^\circ}{n}$</li>
+            <li><strong>Exterior Angle Sum (Any Convex Polygon):</strong> $360^\circ$. Each exterior angle (regular) $= \frac{360^\circ}{n}$.</li>
+            <li><strong>Euler's Formula for Convex Polyhedra:</strong> $V - E + F = 2$ ($V$ = Vertices, $E$ = Edges, $F$ = Faces).</li>
+          </ul>
+        </div>
+
+        <!-- Transformations -->
+        <div>
+          <h3 class="font-bold text-indigo-800 border-b border-indigo-200 pb-1 mb-2 text-base">3. Transformations</h3>
+          <ul class="list-disc pl-5 space-y-1 leading-relaxed">
+            <li><strong>Reflection in Line $x=h$:</strong> $(x, y) \to (2h - x, y)$</li>
+            <li><strong>Reflection in Line $y=k$:</strong> $(x, y) \to (x, 2k - y)$</li>
+            <li><strong>Two Perpendicular Reflections:</strong> Equivalent to a $180^\circ$ rotation around their intersection point $(h, k)$.</li>
+            <li><strong>$90^\circ$ Anticlockwise Rotation about origin:</strong> $(x, y) \to (-y, x)$</li>
+          </ul>
+        </div>
+
+        <!-- Congruence Tests -->
+        <div>
+          <h3 class="font-bold text-indigo-800 border-b border-indigo-200 pb-1 mb-2 text-base">4. Congruence Tests ($\cong$)</h3>
+          <ul class="list-disc pl-5 space-y-1 leading-relaxed">
+            <li><strong>SSS:</strong> Side-Side-Side</li>
+            <li><strong>SAS:</strong> Side-Angle-Side (Angle <em>must</em> be included between the two sides).</li>
+            <li><strong>AAS:</strong> Angle-Angle-Side (Two angles and a matching corresponding side).</li>
+            <li><strong>RHS:</strong> Right angle-Hypotenuse-Side.</li>
+            <li><strong>Ambiguous Case (SSA):</strong> Two sides and a non-included angle do <em>not</em> guarantee congruence (can yield 0, 1, or 2 triangles).</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="p-3 border-t border-slate-200 text-right bg-slate-50 rounded-b-2xl">
+        <button onclick="toggleReferenceModal()" class="bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold px-4 py-2 rounded-lg transition">Close Cheat Sheet</button>
+      </div>
+    </div>
+  </div>
+
+  <footer class="bg-slate-800 text-slate-400 py-4 text-center text-xs">
+    Year 9 Geometry Interactive Math Exam Practice Application
+  </footer>
+
+  <script>
+    const quizData = [
+      // SECTION A
+      {
+        id: 1,
+        section: 'A',
+        title: "1. Intersecting Lines with Two Unknowns (8 marks)",
+        context: "Lines $AC$ and $BD$ intersect at $O$, with $O$ between each pair of endpoints. Rays $OA, OB, OC, OD$ occur in that anticlockwise order. Ray $OE$ lies inside $\\angle BOC$, and $OE \\perp OA$.\n\nGiven: $\\angle AOB = 5x-4$, $\\angle COD = 3x+24$, $\\angle BOE = 2y+4$.",
+        subQuestions: [
+          {
+            part: "a",
+            text: "Find $x$ and $y$, identifying where vertically opposite and complementary angles are used. [3]",
+            options: [
+              { text: "$x = 14$, $y = 10$", correct: true, rationale: "1) Since $AC$ and $BD$ intersect, $\\angle AOB$ and $\\angle COD$ are **vertically opposite angles**:\n$$5x - 4 = 3x + 24 \\implies 2x = 28 \\implies x = 14$$\n2) Substitute $x=14$: $\\angle AOB = 5(14)-4 = 66^\\circ$.\n3) Since $OE \\perp OA$, $\\angle AOE = 90^\\circ$. Rays $OB$ and $OE$ split $\\angle AOE$, so $\\angle AOB$ and $\\angle BOE$ are **complementary angles**:\n$$\\angle AOB + \\angle BOE = 90^\\circ \\implies 66^\\circ + (2y + 4)^\\circ = 90^\\circ$$\n$$2y + 70 = 90 \\implies 2y = 20 \\implies y = 10$$" },
+              { text: "$x = 14$, $y = 12$", correct: false, rationale: "Check the calculation for complementary angles: $66 + 2y + 4 = 90 \\implies 2y = 20 \\implies y = 10$, not $12$." },
+              { text: "$x = 10$, $y = 14$", correct: false, rationale: "Incorrectly assigned values to $x$ and $y$." }
+            ]
+          },
+          {
+            part: "b",
+            text: "Find $\\angle BOC$ and both the smaller and reflex $\\angle DOE$. Use supplementary angles and angles around a point. [3]",
+            options: [
+              { text: "$\\angle BOC = 114^\\circ$, smaller $\\angle DOE = 156^\\circ$, reflex $\\angle DOE = 204^\\circ$", correct: true, rationale: "1) $AC$ is a straight line, so $\\angle AOB$ and $\\angle BOC$ are **supplementary**:\n$$\\angle BOC = 180^\\circ - 66^\\circ = 114^\\circ$$\n2) Smaller $\\angle EOC = \\angle BOC - \\angle BOE = 114^\\circ - 24^\\circ = 90^\\circ$.\n3) Smaller $\\angle DOE = \\angle EOC + \\angle COD = 90^\\circ + 66^\\circ = 156^\\circ$.\n4) By **angles around a point** ($360^\\circ$):\n$$\\text{Reflex } \\angle DOE = 360^\\circ - 156^\\circ = 204^\\circ$$" },
+              { text: "$\\angle BOC = 114^\\circ$, smaller $\\angle DOE = 146^\\circ$, reflex $\\angle DOE = 214^\\circ$", correct: false, rationale: "Arithmetic error in adding $\\angle EOC + \\angle COD$: $90 + 66 = 156^\\circ$." }
+            ]
+          },
+          {
+            part: "c",
+            text: "Ray $OF$ lies inside $\\angle AOB$ and $\\angle AOF = 2\\angle FOB$. Find $\\angle FOE$. [2]",
+            options: [
+              { text: "$\\angle FOE = 46^\\circ$", correct: true, rationale: "1) $\\angle AOB = 66^\\circ$. Since $\\angle AOF = 2\\angle FOB$:\n$$\\angle AOF + \\angle FOB = 3\\angle FOB = 66^\\circ \\implies \\angle FOB = 22^\\circ$$\n2) Since ray $OF$ is inside $\\angle AOB$ and ray $OE$ is in $\\angle BOC$ adjacent to $OB$:\n$$\\angle FOE = \\angle FOB + \\angle BOE = 22^\\circ + 24^\\circ = 46^\\circ$$" },
+              { text: "$\\angle FOE = 68^\\circ$", correct: false, rationale: "This incorrectly used $\\angle AOF = 44^\\circ$ instead of $\\angle FOB = 22^\\circ$." }
+            ]
+          }
+        ]
+      },
+      {
+        id: 2,
+        section: 'A',
+        title: "2. Parallel Lines Inside an Obtuse Triangle (8 marks)",
+        context: "In $\\triangle ABC$, $D$ lies between $A$ and $B$, $E$ lies between $A$ and $C$, and $DE \\parallel BC$.\n\nGiven: $\\angle BDE = 7x+1$, $\\angle BAC = 2x+16$, $\\angle ACB = 3x+5$.",
+        subQuestions: [
+          {
+            part: "a",
+            text: "Find $x$. Identify the triangle used for the exterior angle theorem and explain parallel line connections. [3]",
+            options: [
+              { text: "$x = 10$", correct: true, rationale: "1) Because $DE \\parallel BC$, corresponding angles are equal: $\\angle AED = \\angle ACB = 3x+5$.\n2) Consider $\\triangle ADE$. $\\angle BDE$ is the **exterior angle** to $\\triangle ADE$ at vertex $D$.\n3) By Exterior Angle Theorem on $\\triangle ADE$:\n$$\\angle BDE = \\angle BAC + \\angle AED$$\n$$7x + 1 = (2x + 16) + (3x + 5) \\implies 7x + 1 = 5x + 21 \\implies 2x = 20 \\implies x = 10$$" },
+              { text: "$x = 8$", correct: false, rationale: "Check simplification: $7x - 5x = 21 - 1 \\implies 2x = 20 \\implies x = 10$." }
+            ]
+          },
+          {
+            part: "b",
+            text: "Find $\\angle ABC$, $\\angle ADE$ and $\\angle AED$. State facts used. [3]",
+            options: [
+              { text: "$\\angle ABC = 109^\\circ$, $\\angle ADE = 109^\\circ$, $\\angle AED = 35^\\circ$", correct: true, rationale: "1) $\\angle BDE = 7(10)+1 = 71^\\circ$.\n2) $\\angle ADE$ and $\\angle BDE$ form a straight line: $\\angle ADE = 180^\\circ - 71^\\circ = 109^\\circ$.\n3) Since $DE \\parallel BC$, corresponding angles are equal: $\\angle ABC = \\angle ADE = 109^\\circ$.\n4) $\\angle AED = 3(10)+5 = 35^\\circ$ (or corresponding to $\\angle ACB$)." },
+              { text: "$\\angle ABC = 71^\\circ$, $\\angle ADE = 71^\\circ$, $\\angle AED = 35^\\circ$", correct: false, rationale: "$\\angle BDE = 71^\\circ$ is acute and forms a straight line with $\\angle ADE$, so $\\angle ADE = 180^\\circ - 71^\\circ = 109^\\circ$, which is obtuse." }
+            ]
+          },
+          {
+            part: "c",
+            text: "Extend $BC$ beyond $C$ to $F$. Find $\\angle DEC$ (co-interior) and $\\angle ECF$ (alternate). [2]",
+            options: [
+              { text: "$\\angle DEC = 145^\\circ$, $\\angle ECF = 145^\\circ$", correct: true, rationale: "1) With $DE \\parallel BC$, $\\angle DEC$ and $\\angle ACB$ are **co-interior angles**:\n$$\\angle DEC = 180^\\circ - \\angle ACB = 180^\\circ - 35^\\circ = 145^\\circ$$\n2) $\\angle ECF$ and $\\angle DEC$ are **alternate angles** relative to $DE \\parallel BC$:\n$$\\angle ECF = \\angle DEC = 145^\\circ$$" },
+              { text: "$\\angle DEC = 135^\\circ$, $\\angle ECF = 135^\\circ$", correct: false, rationale: "Calculation error: $180 - 35 = 145^\\circ$." }
+            ]
+          }
+        ]
+      },
+      {
+        id: 3,
+        section: 'A',
+        title: "3. Family of Isosceles Configurations (8 marks)",
+        context: "$\\triangle ABC$ has $AB=AC$. Point $D$ lies strictly between $B$ and $C$, with $AD=BD$. Let $\\angle BAD = t^\\circ$.",
+        subQuestions: [
+          {
+            part: "a",
+            text: "Express all three angles of $\\triangle ADC$ in terms of $t$, and determine range of $t$. [4]",
+            options: [
+              { text: "$\\angle DAC = 180^\\circ - 3t$, $\\angle ACD = t$, $\\angle ADC = 2t$; Range: $0 < t < 60^\\circ$", correct: true, rationale: "1) In isosceles $\\triangle ABD$ ($AD=BD$), $\\angle ABD = \\angle BAD = t$.\n2) Ext. angle $\\angle ADC = \\angle BAD + \\angle ABD = 2t$.\n3) In isosceles $\\triangle ABC$ ($AB=AC$), $\\angle ACD = \\angle ABD = t$.\n4) In $\\triangle ADC$, $\\angle DAC = 180^\\circ - (2t + t) = 180^\\circ - 3t$.\n5) For non-degenerate triangles, all angles $> 0$: $180^\\circ - 3t > 0 \\implies t < 60^\\circ$. Thus $0 < t < 60^\\circ$." },
+              { text: "$\\angle DAC = 180^\\circ - 2t$, $\\angle ACD = 2t$, $\\angle ADC = t$; Range: $0 < t < 90^\\circ$", correct: false, rationale: "Incorrect angle relationships for isosceles bases." }
+            ]
+          },
+          {
+            part: "b",
+            text: "For $\\angle DAC = 4\\angle ACD + 12^\\circ$, find $t$ and all three angles of $\\triangle ADC$. [2]",
+            options: [
+              { text: "$t = 24^\\circ$; Angles: $\\angle DAC = 108^\\circ$, $\\angle ACD = 24^\\circ$, $\\angle ADC = 48^\\circ$", correct: true, rationale: "Substitute angle expressions in terms of $t$:\n$$180 - 3t = 4(t) + 12 \\implies 168 = 7t \\implies t = 24^\\circ$$\nAngles:\n- $\\angle DAC = 180 - 3(24) = 108^\\circ$\n- $\\angle ACD = 24^\\circ$\n- $\\angle ADC = 2(24) = 48^\\circ$" },
+              { text: "$t = 20^\\circ$; Angles: $\\angle DAC = 120^\\circ$, $\\angle ACD = 20^\\circ$, $\\angle ADC = 40^\\circ$", correct: false, rationale: "$7t = 168 \\implies t = 24$." }
+            ]
+          },
+          {
+            part: "c",
+            text: "Find every value of $t$ for which $\\triangle ADC$ is right-angled. Explain completeness. [2]",
+            options: [
+              { text: "$t = 30^\\circ$ or $t = 45^\\circ$", correct: true, rationale: "The angles of $\\triangle ADC$ are $180-3t, 2t, t$.\n1) If $\\angle DAC = 90^\\circ \\implies 180 - 3t = 90 \\implies t = 30^\\circ$.\n2) If $\\angle ADC = 90^\\circ \\implies 2t = 90 \\implies t = 45^\\circ$.\n3) If $\\angle ACD = 90^\\circ \\implies t = 90^\\circ$ (out of valid range $0 < t < 60^\\circ$).\nThus, only $t = 30^\\circ$ and $t = 45^\\circ$ are possible." },
+              { text: "Only $t = 45^\\circ$", correct: false, rationale: "Missed the case where $\\angle DAC = 90^\\circ$ when $t = 30^\\circ$." }
+            ]
+          }
+        ]
+      },
+      {
+        id: 4,
+        section: 'A',
+        title: "4. Quadrilateral to General Proof (8 marks)",
+        context: "Interior angles of convex quad $ABCD$ in vertex order are in ratio $1:2:3:4$.",
+        subQuestions: [
+          {
+            part: "a",
+            text: "Find all four angles and prove $ABCD$ is a trapezium with $AB \\parallel CD$. [3]",
+            options: [
+              { text: "Angles: $36^\\circ, 72^\\circ, 108^\\circ, 144^\\circ$; $AB \\parallel CD$ because $\\angle A + \\angle D = 180^\\circ$.", correct: true, rationale: "1) Sum of angles $= 360^\\circ$. Parts $= 1+2+3+4 = 10$. Part value $= 36^\\circ$.\nAngles: $A=36^\\circ, B=72^\\circ, C=108^\\circ, D=144^\\circ$.\n2) $\\angle A + \\angle D = 36^\\circ + 144^\\circ = 180^\\circ$ (co-interior angles $\\implies AB \\parallel CD$).\n3) $\\angle A + \\angle B = 108^\\circ \\neq 180^\\circ \\implies AD \\nparallel BC$. Thus $ABCD$ is a trapezium." },
+              { text: "Angles: $36^\\circ, 72^\\circ, 108^\\circ, 144^\\circ$; $AD \\parallel BC$.", correct: false, rationale: "$\\angle A + \\angle B = 108^\\circ \\neq 180^\\circ$, so $AD$ and $BC$ are not parallel." }
+            ]
+          },
+          {
+            part: "b",
+            text: "Internal bisectors at $A$ and $B$ meet at $U$. Find $\\angle AUB$. [2]",
+            options: [
+              { text: "$\\angle AUB = 126^\\circ$", correct: true, rationale: "In $\\triangle AUB$:\nHalf-angles are $\\frac{1}{2}A = 18^\\circ$ and $\\frac{1}{2}B = 36^\\circ$.\n$$\\angle AUB = 180^\\circ - (18^\\circ + 36^\\circ) = 180^\\circ - 54^\\circ = 126^\\circ$$" },
+              { text: "$\\angle AUB = 144^\\circ$", correct: false, rationale: "Incorrect sum subtraction." }
+            ]
+          },
+          {
+            part: "c",
+            text: "General Proof: For any convex quad $ABCD$, bisectors at $A,B$ meet at $U$ and $C,D$ at $V$. Prove $\\angle AUB + \\angle CVD = 180^\\circ$. [3]",
+            options: [
+              { text: "Proved: $\\angle AUB + \\angle CVD = 180^\\circ$ for all convex quadrilaterals.", correct: true, rationale: "In $\\triangle AUB$: $\\angle AUB = 180^\\circ - \\frac{1}{2}(A + B)$.\nIn $\\triangle CVD$: $\\angle CVD = 180^\\circ - \\frac{1}{2}(C + D)$.\nSum:\n$$\\angle AUB + \\angle CVD = 360^\\circ - \\frac{1}{2}(A + B + C + D)$$\nSince $A + B + C + D = 360^\\circ$:\n$$\\angle AUB + \\angle CVD = 360^\\circ - \\frac{1}{2}(360^\\circ) = 180^\\circ$$" }
+            ]
+          }
+        ]
+      },
+
+      // SECTION B
+      {
+        id: 5,
+        section: 'B',
+        title: "5. Two Unknown Polygons & An Impossible Claim (10 marks)",
+        context: "Regular polygons $P$ ($n$ sides) and $Q$ ($m$ sides).",
+        subQuestions: [
+          {
+            part: "a",
+            text: "Interior sum of $Q$ is $720^\\circ$ greater than $P$. Ext angle of $P$ is $\\frac{3}{2}$ times ext angle of $Q$. Find $n, m$ and interior angles. [5]",
+            options: [
+              { text: "$P$: 8 sides ($135^\\circ$), $Q$: 12 sides ($150^\\circ$)", correct: true, rationale: "1) Sum equation: $(m-2)180 - (n-2)180 = 720 \\implies 180(m-n) = 720 \\implies m - n = 4$.\n2) Ext angles: $\\frac{360}{n} = \\frac{3}{2}\\left(\\frac{360}{m}\\right) \\implies 2m = 3n$.\n3) Substitute $m = n+4$: $2(n+4) = 3n \\implies n = 8$, so $m = 12$.\n4) Int angle $P = \\frac{(8-2)180}{8} = 135^\\circ$. Int angle $Q = \\frac{(12-2)180}{12} = 150^\\circ$." },
+              { text: "$P$: 6 sides ($120^\\circ$), $Q$: 10 sides ($144^\\circ$)", correct: false, rationale: "If $n=6$, $2m=18 \\implies m=9$, but $m-n$ must be 4." }
+            ]
+          },
+          {
+            part: "b",
+            text: "The interior angles of a convex hexagon, in degrees, are $5t+10, 4t+20, 3t+30, 6t-10, 2t+40, 4t+30$. Find $t$ and all angles. [3]",
+            options: [
+              { text: "$t = 25$; Angles: $135^\\circ, 120^\\circ, 105^\\circ, 140^\\circ, 90^\\circ, 130^\\circ$", correct: true, rationale: "Hexagon angle sum $= (6-2)180 = 720^\\circ$.\nSum of expressions $= 24t + 120 = 720 \\implies 24t = 600 \\implies t = 25$.\nSubstituting $t=25$ gives $135^\\circ, 120^\\circ, 105^\\circ, 140^\\circ, 90^\\circ, 130^\\circ$." }
+            ]
+          },
+          {
+            part: "c",
+            text: "Can a regular polygon have interior angle $154^\\circ$? Prove your answer. [2]",
+            options: [
+              { text: "No, because $n = 13.85...$ is not an integer.", correct: true, rationale: "Exterior angle $= 180^\\circ - 154^\\circ = 26^\\circ$.\nNumber of sides $n = \\frac{360^\\circ}{26^\\circ} = \\frac{180}{13} \\approx 13.85$.\nSince $n$ must be a whole integer, such a regular polygon is impossible." }
+            ]
+          }
+        ]
+      },
+      {
+        id: 6,
+        section: 'B',
+        title: "6. Two Solids, Linked Clues (10 marks)",
+        context: "Solid $P$: Prism with $n$-sided base. Solid $Q$: Pyramid with $m$-sided base.\nSame number of edges; $P$ has 1 more vertex than $Q$.",
+        subQuestions: [
+          {
+            part: "a",
+            text: "Form equations for edges and vertices, and determine $n$ and $m$. [3]",
+            options: [
+              { text: "$n = 4, m = 6$", correct: true, rationale: "1) Prism $P$ edges $= 3n$, Pyramid $Q$ edges $= 2m \\implies 3n = 2m$.\n2) Prism $P$ vertices $= 2n$, Pyramid $Q$ vertices $= m+1$.\nGiven $V_P = V_Q + 1 \\implies 2n = (m + 1) + 1 = m + 2$.\n3) Substitute $m = 1.5n$: $2n = 1.5n + 2 \\implies 0.5n = 2 \\implies n = 4$, so $m = 6$." },
+              { text: "$n = 6, m = 4$", correct: false, rationale: "Reversed $n$ and $m$ values." }
+            ]
+          },
+          {
+            part: "b",
+            text: "Give solid names, counts ($V, E, F$), and verify Euler's rule separately. [4]",
+            options: [
+              { text: "$P$: Quadrangular Prism ($V=8, E=12, F=6$), $Q$: Hexagonal Pyramid ($V=7, E=12, F=7$). Euler holds for both ($V-E+F=2$).", correct: true, rationale: "- $P$ (n=4): Quadrangular Prism. $V=8, E=12, F=6$. $8 - 12 + 6 = 2$ ✓\n- $Q$ (m=6): Hexagonal Pyramid. $V=7, E=12, F=7$. $7 - 12 + 7 = 2$ ✓" }
+            ]
+          },
+          {
+            part: "c",
+            text: "A convex polyhedron is labelled $V=9, E=14, F=8$, with exactly one incorrect count. Give the three possible single-count corrections that satisfy Euler's formula. Does the formula uniquely identify the solid? [3]",
+            options: [
+              { text: "Fixes: $V=8$, OR $E=15$, OR $F=7$. Euler's rule alone does NOT uniquely identify a solid.", correct: true, rationale: "Currently $9 - 14 + 8 = 3 \\neq 2$.\n1) Change $V$: $V - 14 + 8 = 2 \\implies V = 8$.\n2) Change $E$: $9 - E + 8 = 2 \\implies E = 15$.\n3) Change $F$: $9 - 14 + F = 2 \\implies F = 7$.\nSatisfying Euler's rule alone does not uniquely identify a solid because multiple different polyhedra can share the same $V, E, F$ counts." }
+            ]
+          }
+        ]
+      },
+
+      // SECTION C
+      {
+        id: 7,
+        section: 'C',
+        title: "7. Recover Hidden Mirror Lines (8 marks)",
+        context: "$\\triangle ABC$: $A(-3,1), B(0,4), C(2,1)$. Reflected in $x=h$ then $y=k$. Final image $A''=(5,-3)$.",
+        subQuestions: [
+          {
+            part: "a",
+            text: "Determine $h$ and $k$. [2]",
+            options: [
+              { text: "$h = 1, k = -1$", correct: true, rationale: "1) Reflection in $x=h$: $x'' = 2h - x_A \\implies 5 = 2h - (-3) \\implies 2h = 2 \\implies h = 1$.\n2) Reflection in $y=k$: $y'' = 2k - y_A \\implies -3 = 2k - 1 \\implies 2k = -2 \\implies k = -1$." },
+              { text: "$h = 2, k = -2$", correct: false, rationale: "Check reflection formula: $2h - (-3) = 5 \\implies 2h = 2 \\implies h = 1$." }
+            ]
+          },
+          {
+            part: "b",
+            text: "State coordinates of intermediate $A'B'C'$ and final image $A''B''C''$. [3]",
+            options: [
+              { text: "$A'(5,1), B'(2,4), C'(0,1)$ and $A''(5,-3), B''(2,-6), C''(0,-3)$", correct: true, rationale: "Reflect across $x=1$ ($x' = 2 - x$):\n$A'(5,1), B'(2,4), C'(0,1)$\nReflect across $y=-1$ ($y'' = -2 - y'$):\n$A''(5,-3), B''(2,-6), C''(0,-3)$" }
+            ]
+          },
+          {
+            part: "c",
+            text: "Describe equivalent single rotation. Does reversing reflection order change final image? [3]",
+            options: [
+              { text: "$180^\\circ$ rotation about $(1,-1)$. Reversing order produces the exact same final image.", correct: true, rationale: "Reflecting across two perpendicular lines $x=1$ and $y=-1$ is equivalent to a $180^\\circ$ rotation about their intersection point $(1,-1)$. For any point $(x,y)$, both orders yield $(2h-x, 2k-y)$, so order does not matter here." }
+            ]
+          }
+        ]
+      },
+      {
+        id: 8,
+        section: 'C',
+        title: "8. Recover Translation from Final Image (8 marks)",
+        context: "$\\triangle PQR$: $P(-2,1), Q(1,1), R(-1,3)$. Translation, then $90^\\circ$ CCW rotation about $K(2,-1)$. $P''=(2,0)$.",
+        subQuestions: [
+          {
+            part: "a",
+            text: "Determine translation vector and intermediate point $P'$. [2]",
+            options: [
+              { text: "$P'(3,-1)$, Vector = $\\begin{pmatrix} 5 \\\\ -2 \\end{pmatrix}$", correct: true, rationale: "1) Reverse $90^\\circ$ CCW rotation by applying $90^\\circ$ CW rotation to $P''(2,0)$ around $K(2,-1)$:\nRelative to $K$: $P'' - K = (0, 1)$. Rotating $90^\\circ$ CW gives $(1, 0)$.\nSo $P' = K + (1,0) = (3,-1)$.\n2) Translation vector from $P(-2,1)$ to $P'(3,-1)$:\n$$\\begin{pmatrix} 3 - (-2) \\\\ -1 - 1 \\end{pmatrix} = \\begin{pmatrix} 5 \\\\ -2 \\end{pmatrix}$$" },
+              { text: "$P'(3,1)$, Vector = $\\begin{pmatrix} 5 \\\\ 0 \\end{pmatrix}$", correct: false, rationale: "Check y-coordinate of $P'$ after reverse rotation around $K(2,-1)$." }
+            ]
+          },
+          {
+            part: "b",
+            text: "Find coordinates of translated points $P', Q', R'$. [2]",
+            options: [
+              { text: "$P'(3,-1), Q'(6,-1), R'(4,1)$", correct: true, rationale: "Apply vector $\\begin{pmatrix} 5 \\\\ -2 \\end{pmatrix}$ to original vertices:\n- $P' = (-2+5, 1-2) = (3,-1)$\n- $Q' = (1+5, 1-2) = (6,-1)$\n- $R' = (-1+5, 3-2) = (4,1)$" }
+            ]
+          },
+          {
+            part: "c",
+            text: "Find final rotated coordinates $P'', Q'', R''$. [2]",
+            options: [
+              { text: "$P''(2,0), Q''(2,3), R''(0,1)$", correct: true, rationale: "Rotate $90^\\circ$ CCW around $K(2,-1)$:\n- $Q'(6,-1) \\to$ rel $(4,0) \\to$ rotated $(0,4) \\to$ abs $(2,3)$\n- $R'(4,1) \\to$ rel $(2,2) \\to$ rotated $(-2,2) \\to$ abs $(0,1)$" }
+            ]
+          },
+          {
+            part: "d",
+            text: "Find $T$ if $T'' = (-1,4)$ under same transformations. [2]",
+            options: [
+              { text: "$T = (2, 4)$", correct: true, rationale: "1) $T''(-1,4) \\to$ rel to $K$: $(-3, 5)$.\n2) Rotate $90^\\circ$ CW (reverse): $(5, 3) \\to$ Abs $T' = (2+5, -1+3) = (7,2)$.\n3) Reverse translation (subtract vector $\\begin{pmatrix} 5 \\\\ -2 \\end{pmatrix}$):\n$$T = (7-5, 2 - (-2)) = (2, 4)$$" },
+              { text: "$T = (-6, 4)$", correct: false, rationale: "Incorrect reversal of translation vector." }
+            ]
+          }
+        ]
+      },
+      {
+        id: 9,
+        section: 'C',
+        title: "9. Correspondence & Restricted Symmetry (8 marks)",
+        context: "$ABCD \\cong RSPQ$.",
+        subQuestions: [
+          {
+            part: "a",
+            text: "Name the corresponding vertex to $C$, side to $AD$, and angle to $\\angle ABC$. [3]",
+            options: [
+              { text: "Vertex $P$, Side $RQ$, Angle $\\angle RSP$", correct: true, rationale: "Matching letter positions in statement $ABCD \\cong RSPQ$:\n- $C \\leftrightarrow P$\n- $AD \\leftrightarrow RQ$\n- $\\angle ABC \\leftrightarrow \\angle RSP$" }
+            ]
+          },
+          {
+            part: "b",
+            text: "Given $AB=2x+1, RS=5x-11, \\angle BCD=3y+8, \\angle SPQ=5y-22$. Find $x$ and $y$. [2]",
+            options: [
+              { text: "$x = 4, y = 15$", correct: true, rationale: "1) $AB = RS \\implies 2x + 1 = 5x - 11 \\implies 3x = 12 \\implies x = 4$.\n2) $\\angle BCD = \\angle SPQ \\implies 3y + 8 = 5y - 22 \\implies 2y = 30 \\implies y = 15$." }
+            ]
+          },
+          {
+            part: "c",
+            text: "Regular 12-gon with dots at every 3rd vertex. Rotational symmetry order & angle? [2]",
+            options: [
+              { text: "Order 4, angle $90^\\circ$", correct: true, rationale: "Dots are placed at $12 / 3 = 4$ symmetric positions. Rotational order is 4, smallest angle $= 360^\\circ / 4 = 90^\\circ$." }
+            ]
+          },
+          {
+            part: "d",
+            text: "If 1 dot is replaced by a star, what is the order of rotational symmetry? [1]",
+            options: [
+              { text: "Order 1", correct: true, rationale: "The single star breaks the multi-fold symmetry; only a full $360^\\circ$ rotation maps the star onto itself." }
+            ]
+          }
+        ]
+      },
+
+      // SECTION D
+      {
+        id: 10,
+        section: 'D',
+        title: "10. Missing Congruence Evidence (8 marks)",
+        context: "Establish congruence test reasoning with evidence.",
+        subQuestions: [
+          {
+            part: "a",
+            text: "$AB=DE, AC=DF, \\angle B=\\angle E=62^\\circ, \\angle C=\\angle F=74^\\circ$. Prove SAS with missing angle. [2]",
+            options: [
+              { text: "Missing included angle $\\angle A = \\angle D = 44^\\circ$. $\\triangle ABC \\cong \\triangle DEF$ (SAS).", correct: true, rationale: "1) Included angle $\\angle A = 180^\\circ - (62^\\circ + 74^\\circ) = 44^\\circ$.\n2) Similarly $\\angle D = 44^\\circ$.\n3) Since $AB=DE$, $\\angle A = \\angle D$, and $AC=DF$, SAS test is satisfied." }
+            ]
+          },
+          {
+            part: "b",
+            text: "$AB=x+2, BC=2x+1, AC=9$; $DE=7, EF=11, DF=9$. Find $x$ for $\\triangle ABC \\cong \\triangle DEF$. [2]",
+            options: [
+              { text: "$x = 5$, SSS test.", correct: true, rationale: "Set corresponding sides equal: $x + 2 = 7 \\implies x = 5$.\nCheck second side: $2(5)+1 = 11 = EF$. $AC=DF=9$. All three pairs of sides equal $\\implies$ SSS." }
+            ]
+          },
+          {
+            part: "c",
+            text: "Triangles $DEF$ and $JKL$ are right-angled at $E$ and $K$. Hypotenuses $DF=2x+1, JL=x+6$; $EF=KL=6$. Find $x$ so that $\\triangle DEF \\cong \\triangle JKL$, and name the congruence test. [2]",
+            options: [
+              { text: "$x = 5$, RHS test.", correct: true, rationale: "Hypotenuses equal: $2x + 1 = x + 6 \\implies x = 5$.\nHypotenuses $= 11$, leg $= 6$, right angle at $E, K \\implies \\triangle DEF \\cong \\triangle JKL$ (RHS)." }
+            ]
+          },
+          {
+            part: "d",
+            text: "$\\angle B=52^\\circ, \\angle C=68^\\circ; \\angle D=60^\\circ, \\angle E=52^\\circ; BC=EF=8$. Prove AAS. [2]",
+            options: [
+              { text: "Angle pairs $\\angle A = \\angle D = 60^\\circ$, $\\angle B = \\angle E = 52^\\circ$, non-included side $BC = EF = 8$. (AAS)", correct: true, rationale: "1) In $\\triangle ABC$, $\\angle A = 180 - (52+68) = 60^\\circ = \\angle D$.\n2) $\\angle B = \\angle E = 52^\\circ$.\n3) Corresponding non-included side $BC = EF = 8 \\implies$ AAS test proved." }
+            ]
+          }
+        ]
+      },
+      {
+        id: 11,
+        section: 'D',
+        title: "11. Prove Kite's Properties (8 marks)",
+        context: "Convex quad $ABCD$: $AB=AD, CB=CD, AB \\neq CB$. Diagonals meet at $E$.",
+        subQuestions: [
+          {
+            part: "a",
+            text: "Prove $\\triangle ABC \\cong \\triangle ADC$. [3]",
+            options: [
+              { text: "$AB=AD, CB=CD, AC$ common $\\implies \\triangle ABC \\cong \\triangle ADC$ (SSS).", correct: true, rationale: "All three corresponding side pairs are given equal or shared: $AB=AD$, $CB=CD$, $AC=AC$. By SSS, $\\triangle ABC \\cong \\triangle ADC$." }
+            ]
+          },
+          {
+            part: "b",
+            text: "Deduce $\\angle BAE = \\angle EAD$. [1]",
+            options: [
+              { text: "Corresponding angles of congruent triangles $\\triangle ABC \\cong \\triangle ADC$ are equal.", correct: true, rationale: "$\\angle BAC = \\angle DAC$ from congruent triangles in part a. Since $E$ lies on $AC$, $\\angle BAE = \\angle EAD$." }
+            ]
+          },
+          {
+            part: "c",
+            text: "Prove $\\triangle ABE \\cong \\triangle ADE$. [2]",
+            options: [
+              { text: "$AB=AD, \\angle BAE = \\angle EAD, AE$ common $\\implies \\triangle ABE \\cong \\triangle ADE$ (SAS).", correct: true, rationale: "Two sides and the included angle are equal, satisfying the SAS test." }
+            ]
+          },
+          {
+            part: "d",
+            text: "Deduce $BE=ED$ and $AC \\perp BD$. [2]",
+            options: [
+              { text: "$BE=ED$ (matching sides). $\\angle AEB = \\angle AED = 90^\\circ$ because they form a straight line ($180^\\circ$).", correct: true, rationale: "From $\\triangle ABE \\cong \\triangle ADE$, matching sides $BE = ED$. Matching angles $\\angle AEB = \\angle AED$. Since $BED$ is a straight line, $\\angle AEB + \\angle AED = 180^\\circ \\implies \\angle AEB = 90^\\circ \\implies AC \\perp BD$." }
+            ]
+          }
+        ]
+      },
+      {
+        id: 12,
+        section: 'D',
+        title: "12. Construction: One Shape or Two? (8 marks)",
+        context: "Ruler & compass constructions.",
+        subQuestions: [
+          {
+            part: "a & b",
+            text: "Triangle with sides $AB=8, AC=7, BC=5$. Construction circles intersect on both sides of $AB$. Does this give non-congruent triangles? [4]",
+            options: [
+              { text: "No, the two triangles are congruent by SSS (they are mirror images).", correct: true, rationale: "Triangles formed above and below $AB$ both have sides 8, 7, 5. By SSS, they are congruent mirror reflections." }
+            ]
+          },
+          {
+            part: "c & d",
+            text: "$AB=8, \\angle BAC = 30^\\circ, BC=5$. Does this determine a unique triangle? Explain. [4]",
+            options: [
+              { text: "No (Ambiguous Case / SSA): Arc from $B$ intersects the $30^\\circ$ ray at 2 distinct points $C_1, C_2$.", correct: true, rationale: "Because $BC < AB$ ($5 < 8$) and $BC > AB \\sin(30^\\circ) = 4$, the compass arc centered at $B$ cuts the ray at two distinct locations $C_1$ and $C_2$, producing two non-congruent triangles." },
+              { text: "Yes, produces a unique triangle.", correct: false, rationale: "SSA does not guarantee uniqueness." }
+            ]
+          }
+        ]
+      }
+    ];
+
+    let userScores = {};
+
+    function renderQuestions(filter = 'ALL') {
+      const container = document.getElementById('questions-container');
+      container.innerHTML = '';
+
+      quizData.forEach(q => {
+        if (filter !== 'ALL' && q.section !== filter) return;
+
+        const card = document.createElement('div');
+        card.className = "bg-white rounded-xl shadow-xs border border-slate-200 p-5 md:p-6 transition hover:shadow-md";
+
+        let html = `
+          <div class="mb-4">
+            <span class="inline-block px-2.5 py-0.5 text-xs font-bold rounded-full bg-indigo-100 text-indigo-800 mb-2">Section ${q.section}</span>
+            <h2 class="text-lg md:text-xl font-bold text-slate-900">${q.title}</h2>
+            <div class="mt-2 text-slate-700 text-xs md:text-sm bg-slate-50 p-3.5 rounded-lg border border-slate-200 leading-relaxed">${q.context.replace(/\n/g, '<br>')}</div>
+          </div>
+          <div class="space-y-6">
+        `;
+
+        q.subQuestions.forEach((sq, idx) => {
+          const qKey = `${q.id}_${idx}`;
+          html += `
+            <div class="border-t border-slate-100 pt-4" id="sq-${qKey}">
+              <p class="font-semibold text-slate-800 text-xs md:text-sm mb-3">Part (${sq.part}) ${sq.text}</p>
+              <div class="space-y-2">
+          `;
+
+          sq.options.forEach((opt, oIdx) => {
+            html += `
+              <button onclick="checkAnswer(${q.id}, ${idx}, ${oIdx})"
+                      id="btn-${qKey}-${oIdx}"
+                      class="w-full text-left p-3 rounded-lg border border-slate-200 hover:border-indigo-400 hover:bg-indigo-50/50 transition text-xs md:text-sm flex items-start gap-2.5">
+                <span class="font-bold text-slate-400 text-xs mt-0.5">${String.fromCharCode(65 + oIdx)}.</span>
+                <span class="flex-grow">${opt.text}</span>
+              </button>
+            `;
+          });
+
+          html += `
+              </div>
+              <div id="feedback-${qKey}" class="hidden mt-3 p-3.5 rounded-lg text-xs md:text-sm leading-relaxed"></div>
+            </div>
+          `;
+        });
+
+        html += `</div>`;
+        card.innerHTML = html;
+        container.appendChild(card);
+      });
+
+      if (window.renderMathInElement) {
+        renderMathInElement(document.body, {
+          delimiters: [
+            {left: '$$', right: '$$', display: true},
+            {left: '$', right: '$', display: false}
+          ]
+        });
+      }
+    }
+
+    function checkAnswer(qId, sqIdx, optionIdx) {
+      const qKey = `${qId}_${sqIdx}`;
+      const question = quizData.find(q => q.id === qId);
+      const subQ = question.subQuestions[sqIdx];
+      const selectedOpt = subQ.options[optionIdx];
+
+      const feedbackEl = document.getElementById(`feedback-${qKey}`);
+
+      // Disable options for this subquestion
+      subQ.options.forEach((_, oIdx) => {
+        const btn = document.getElementById(`btn-${qKey}-${oIdx}`);
+        btn.disabled = true;
+        btn.classList.add('cursor-not-allowed', 'opacity-80');
+      });
+
+      const selectedBtn = document.getElementById(`btn-${qKey}-${optionIdx}`);
+
+      if (selectedOpt.correct) {
+        selectedBtn.classList.remove('border-slate-200', 'hover:border-indigo-400');
+        selectedBtn.classList.add('border-emerald-500', 'bg-emerald-50', 'text-emerald-950', 'font-medium');
+        feedbackEl.className = "mt-3 p-3.5 rounded-lg text-xs md:text-sm bg-emerald-50 border border-emerald-200 text-emerald-900";
+        feedbackEl.innerHTML = `<div class="font-bold text-emerald-700 mb-1">✓ Correct!</div><div>${selectedOpt.rationale.replace(/\n/g, '<br>')}</div>`;
+        userScores[qKey] = true;
+      } else {
+        selectedBtn.classList.remove('border-slate-200', 'hover:border-indigo-400');
+        selectedBtn.classList.add('border-rose-500', 'bg-rose-50', 'text-rose-950');
+
+        // Highlight correct option
+        subQ.options.forEach((opt, oIdx) => {
+          if (opt.correct) {
+            const correctBtn = document.getElementById(`btn-${qKey}-${oIdx}`);
+            correctBtn.classList.add('border-emerald-500', 'bg-emerald-50');
+          }
+        });
+
+        feedbackEl.className = "mt-3 p-3.5 rounded-lg text-xs md:text-sm bg-rose-50 border border-rose-200 text-rose-900";
+        feedbackEl.innerHTML = `<div class="font-bold text-rose-700 mb-1">✗ Incorrect</div><div>${selectedOpt.rationale.replace(/\n/g, '<br>')}</div>`;
+        userScores[qKey] = false;
+      }
+
+      feedbackEl.classList.remove('hidden');
+      updateScore();
+
+      if (window.renderMathInElement) {
+        renderMathInElement(feedbackEl, {
+          delimiters: [
+            {left: '$$', right: '$$', display: true},
+            {left: '$', right: '$', display: false}
+          ]
+        });
+      }
+    }
+
+    function updateScore() {
+      let totalQuestions = 0;
+      quizData.forEach(q => totalQuestions += q.subQuestions.length);
+
+      let answeredCount = Object.keys(userScores).length;
+      let correctCount = Object.values(userScores).filter(Boolean).length;
+
+      document.getElementById('score-display').innerText = `${correctCount} / ${totalQuestions} Correct (${answeredCount} Done)`;
+    }
+
+    function filterSection(sec) {
+      document.querySelectorAll('.nav-tab').forEach(btn => {
+        if (btn.dataset.sec === sec) {
+          btn.className = "nav-tab px-3.5 py-1.5 rounded-lg text-xs md:text-sm font-medium whitespace-nowrap bg-indigo-600 text-white shadow-xs";
+        } else {
+          btn.className = "nav-tab px-3.5 py-1.5 rounded-lg text-xs md:text-sm font-medium whitespace-nowrap bg-slate-100 text-slate-600 hover:bg-slate-200";
+        }
+      });
+      renderQuestions(sec);
+    }
+
+    function toggleReferenceModal() {
+      const modal = document.getElementById('reference-modal');
+      modal.classList.toggle('hidden');
+      if (!modal.classList.contains('hidden') && window.renderMathInElement) {
+        renderMathInElement(modal, {
+          delimiters: [
+            {left: '$$', right: '$$', display: true},
+            {left: '$', right: '$', display: false}
+          ]
+        });
+      }
+    }
+
+    window.onload = () => {
+      renderQuestions('ALL');
+    };
+  </script>
+</body>
+</html>
