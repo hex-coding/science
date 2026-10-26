@@ -8,8 +8,20 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body);"></script>
+  <script src="math-diagrams.js"></script>
   <style>
     .math { font-family: 'KaTeX_Main', 'Times New Roman', serif; }
+    .geometry-figure { margin: 1rem 0; overflow-x: auto; }
+    .geometry-figure svg { display: block; width: 100%; max-width: 600px; margin: auto; }
+    .geometry-figure figcaption { margin-top: .5rem; text-align: center; font-size: .75rem; color: #475569; }
+    .math-copy, .katex-display { overflow-x: auto; }
+    .katex-display { padding: .25rem 0; }
+    details > summary { cursor: pointer; color: #4338ca; font-weight: 600; padding: .5rem 0; }
+    header > div { flex-wrap: wrap; gap: .75rem; }
+    @media (max-width: 639px) {
+      header h1 { font-size: 1rem !important; }
+      header > div > div:last-child { width: 100%; justify-content: space-between; }
+    }
     /* Custom Scrollbar */
     ::-webkit-scrollbar { width: 8px; height: 8px; }
     ::-webkit-scrollbar-track { background: #f1f5f9; }
@@ -40,14 +52,14 @@
         <!-- Score Badge -->
         <div class="bg-indigo-950/80 border border-indigo-700 px-3 py-1 rounded-xl text-right">
           <div class="text-[10px] uppercase tracking-wider text-indigo-300 font-semibold">Progress</div>
-          <div id="score-display" class="text-sm font-black text-amber-400">0 / 28 Completed</div>
+          <div id="score-display" class="text-sm font-black text-amber-400" aria-live="polite">0 / 39 Reviewed</div>
         </div>
       </div>
     </div>
   </header>
 
   <!-- Navigation Bar (Sections) -->
-  <nav class="bg-white border-b border-slate-200 sticky top-[57px] z-20 shadow-sm">
+  <nav class="bg-white border-b border-slate-200 shadow-sm" aria-label="Question sections">
     <div class="max-w-6xl mx-auto px-4 flex gap-2 overflow-x-auto py-2 scrollbar-none">
       <button onclick="filterSection('ALL')" class="nav-tab px-3.5 py-1.5 rounded-lg text-xs md:text-sm font-medium whitespace-nowrap bg-indigo-600 text-white shadow-xs" data-sec="ALL">All Sections</button>
       <button onclick="filterSection('A')" class="nav-tab px-3.5 py-1.5 rounded-lg text-xs md:text-sm font-medium whitespace-nowrap bg-slate-100 text-slate-600 hover:bg-slate-200" data-sec="A">Sec A: Angles & Lines</button>
@@ -209,7 +221,7 @@
         id: 3,
         section: 'A',
         title: "3. Family of Isosceles Configurations (8 marks)",
-        context: "$\\triangle ABC$ has $AB=AC$. Point $D$ lies strictly between $B$ and $C$, with $AD=BD$. Let $\\angle BAD = t^\\circ$.",
+        context: "$\\triangle ABC$ has $AB=AC$. Point $D$ lies strictly between $B$ and $C$, with $AD=BD$. Let the angle $\\angle BAD = t$.",
         subQuestions: [
           {
             part: "a",
@@ -295,7 +307,7 @@
             part: "c",
             text: "Can a regular polygon have interior angle $154^\\circ$? Prove your answer. [2]",
             options: [
-              { text: "No, because $n = 13.85...$ is not an integer.", correct: true, rationale: "Exterior angle $= 180^\\circ - 154^\\circ = 26^\\circ$.\nNumber of sides $n = \\frac{360^\\circ}{26^\\circ} = \\frac{180}{13} \\approx 13.85$.\nSince $n$ must be a whole integer, such a regular polygon is impossible." }
+              { text: "No, because $n = \\frac{180}{13}$ is not an integer.", correct: true, rationale: "Exterior angle $= 180^\\circ - 154^\\circ = 26^\\circ$.\nNumber of sides $n = \\frac{360^\\circ}{26^\\circ} = \\frac{180}{13} \\approx 13.85$.\nSince $n$ must be a whole integer, such a regular polygon is impossible." }
             ]
           }
         ]
@@ -366,7 +378,7 @@
         id: 8,
         section: 'C',
         title: "8. Recover Translation from Final Image (8 marks)",
-        context: "$\\triangle PQR$: $P(-2,1), Q(1,1), R(-1,3)$. Translation, then $90^\\circ$ CCW rotation about $K(2,-1)$. $P''=(2,0)$.",
+        context: "$\\triangle PQR$: $P(-2,1), Q(1,1), R(-1,3)$. A translation is followed by a $90^\\circ$ anticlockwise (CCW) rotation about $K(2,-1)$. The final image of $P$ is $P''=(2,0)$.",
         subQuestions: [
           {
             part: "a",
@@ -514,7 +526,7 @@
         id: 12,
         section: 'D',
         title: "12. Construction: One Shape or Two? (8 marks)",
-        context: "Ruler & compass constructions.",
+        context: "Ruler and compass constructions. All lengths are in centimetres.",
         subQuestions: [
           {
             part: "a & b",
@@ -527,8 +539,8 @@
             part: "c & d",
             text: "$AB=8, \\angle BAC = 30^\\circ, BC=5$. Does this determine a unique triangle? Explain. [4]",
             options: [
-              { text: "No (Ambiguous Case / SSA): Arc from $B$ intersects the $30^\\circ$ ray at 2 distinct points $C_1, C_2$.", correct: true, rationale: "Because $BC < AB$ ($5 < 8$) and $BC > AB \\sin(30^\\circ) = 4$, the compass arc centered at $B$ cuts the ray at two distinct locations $C_1$ and $C_2$, producing two non-congruent triangles." },
-              { text: "Yes, produces a unique triangle.", correct: false, rationale: "SSA does not guarantee uniqueness." }
+              { text: "No (Ambiguous Case / SSA): Arc from $B$ intersects the $30^\\circ$ ray at 2 distinct points $C_1, C_2$.", correct: true, rationale: "Drop a perpendicular from $B$ to the ray. Its length is $8\\sin(30^\\circ)=4$ cm (the side opposite $30^\\circ$ is half the hypotenuse). The radius $5$ cm is greater than this distance but less than $AB=8$ cm. Therefore the circle centred at $B$ cuts the forward ray twice, at $C_1$ and $C_2$. The two values of $AC$ differ, so the triangles are not congruent." },
+              { text: "Yes, produces a unique triangle.", correct: false, rationale: "Here the perpendicular distance from $B$ to the ray is $8\\sin(30^\\circ)=4$ cm. Since $4<5<8$, the circle centred at $B$ with radius $5$ cm intersects the forward ray twice. These two different values of $AC$ give non-congruent triangles; the measurements do not determine a unique triangle." }
             ]
           }
         ]
@@ -536,6 +548,18 @@
     ];
 
     let userScores = {};
+    let userAnswers = {};
+    const optionOrders = Object.fromEntries(quizData.flatMap(question =>
+      question.subQuestions.map((part, index) => [
+        `${question.id}_${index}`,
+        part.options.map((option, optionIndex) => ({ optionIndex, order: Math.random() }))
+          .sort((first, second) => first.order - second.order).map(entry => entry.optionIndex)
+      ])
+    ));
+
+    function formatExplanation(text) {
+      return text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br>');
+    }
 
     function renderQuestions(filter = 'ALL') {
       const container = document.getElementById('questions-container');
@@ -551,7 +575,8 @@
           <div class="mb-4">
             <span class="inline-block px-2.5 py-0.5 text-xs font-bold rounded-full bg-indigo-100 text-indigo-800 mb-2">Section ${q.section}</span>
             <h2 class="text-lg md:text-xl font-bold text-slate-900">${q.title}</h2>
-            <div class="mt-2 text-slate-700 text-xs md:text-sm bg-slate-50 p-3.5 rounded-lg border border-slate-200 leading-relaxed">${q.context.replace(/\n/g, '<br>')}</div>
+            <div class="math-copy mt-2 text-slate-700 text-xs md:text-sm bg-slate-50 p-3.5 rounded-lg border border-slate-200 leading-relaxed">${q.context.replace(/\n/g, '<br>')}</div>
+            ${geometryDiagram(q.id)}
           </div>
           <div class="space-y-6">
         `;
@@ -560,17 +585,19 @@
           const qKey = `${q.id}_${idx}`;
           html += `
             <div class="border-t border-slate-100 pt-4" id="sq-${qKey}">
-              <p class="font-semibold text-slate-800 text-xs md:text-sm mb-3">Part (${sq.part}) ${sq.text}</p>
+              <p class="math-copy font-semibold text-slate-800 text-xs md:text-sm mb-3">Part (${sq.part}) ${sq.text}</p>
+              <details id="answer-${qKey}"><summary>${sq.options.length === 1 ? 'Worked solution' : 'Answer choices'}</summary>
               <div class="space-y-2">
           `;
 
-          sq.options.forEach((opt, oIdx) => {
+          optionOrders[qKey].forEach((oIdx, displayIndex) => {
+            const opt = sq.options[oIdx];
             html += `
               <button onclick="checkAnswer(${q.id}, ${idx}, ${oIdx})"
                       id="btn-${qKey}-${oIdx}"
                       class="w-full text-left p-3 rounded-lg border border-slate-200 hover:border-indigo-400 hover:bg-indigo-50/50 transition text-xs md:text-sm flex items-start gap-2.5">
-                <span class="font-bold text-slate-400 text-xs mt-0.5">${String.fromCharCode(65 + oIdx)}.</span>
-                <span class="flex-grow">${opt.text}</span>
+                <span class="font-bold text-slate-400 text-xs mt-0.5">${sq.options.length === 1 ? '' : String.fromCharCode(65 + displayIndex) + '.'}</span>
+                <span class="math-copy flex-grow min-w-0">${sq.options.length === 1 ? 'Reveal worked solution' : opt.text}</span>
               </button>
             `;
           });
@@ -578,6 +605,7 @@
           html += `
               </div>
               <div id="feedback-${qKey}" class="hidden mt-3 p-3.5 rounded-lg text-xs md:text-sm leading-relaxed"></div>
+              </details>
             </div>
           `;
         });
@@ -586,6 +614,15 @@
         card.innerHTML = html;
         container.appendChild(card);
       });
+
+      Object.entries(userAnswers).forEach(([key, optionIndex]) => {
+        if (document.getElementById(`feedback-${key}`)) {
+          const [questionId, partIndex] = key.split('_').map(Number);
+          document.getElementById(`answer-${key}`).open = true;
+          checkAnswer(questionId, partIndex, optionIndex);
+        }
+      });
+      updateScore();
 
       if (window.renderMathInElement) {
         renderMathInElement(document.body, {
@@ -602,6 +639,7 @@
       const question = quizData.find(q => q.id === qId);
       const subQ = question.subQuestions[sqIdx];
       const selectedOpt = subQ.options[optionIdx];
+      userAnswers = { ...userAnswers, [qKey]: optionIdx };
 
       const feedbackEl = document.getElementById(`feedback-${qKey}`);
 
@@ -614,12 +652,16 @@
 
       const selectedBtn = document.getElementById(`btn-${qKey}-${optionIdx}`);
 
-      if (selectedOpt.correct) {
+      if (subQ.options.length === 1) {
+        feedbackEl.className = "math-copy mt-3 p-3.5 rounded-lg text-xs md:text-sm bg-slate-50 border border-slate-200 text-slate-800";
+        feedbackEl.innerHTML = `<div class="font-bold mb-2">Worked solution</div><div>${selectedOpt.text}</div><div class="mt-2">${formatExplanation(selectedOpt.rationale)}</div>`;
+        userScores = { ...userScores, [qKey]: 'reviewed' };
+      } else if (selectedOpt.correct) {
         selectedBtn.classList.remove('border-slate-200', 'hover:border-indigo-400');
         selectedBtn.classList.add('border-emerald-500', 'bg-emerald-50', 'text-emerald-950', 'font-medium');
         feedbackEl.className = "mt-3 p-3.5 rounded-lg text-xs md:text-sm bg-emerald-50 border border-emerald-200 text-emerald-900";
-        feedbackEl.innerHTML = `<div class="font-bold text-emerald-700 mb-1">✓ Correct!</div><div>${selectedOpt.rationale.replace(/\n/g, '<br>')}</div>`;
-        userScores[qKey] = true;
+        feedbackEl.innerHTML = `<div class="font-bold text-emerald-700 mb-1">✓ Correct!</div><div>${formatExplanation(selectedOpt.rationale)}</div>`;
+        userScores = { ...userScores, [qKey]: true };
       } else {
         selectedBtn.classList.remove('border-slate-200', 'hover:border-indigo-400');
         selectedBtn.classList.add('border-rose-500', 'bg-rose-50', 'text-rose-950');
@@ -633,10 +675,15 @@
         });
 
         feedbackEl.className = "mt-3 p-3.5 rounded-lg text-xs md:text-sm bg-rose-50 border border-rose-200 text-rose-900";
-        feedbackEl.innerHTML = `<div class="font-bold text-rose-700 mb-1">✗ Incorrect</div><div>${selectedOpt.rationale.replace(/\n/g, '<br>')}</div>`;
-        userScores[qKey] = false;
+        const correctOpt = subQ.options.find(option => option.correct);
+        feedbackEl.innerHTML = `<div class="font-bold text-rose-700 mb-1">✗ Incorrect</div><div>${formatExplanation(selectedOpt.rationale)}</div><div class="font-bold mt-3 mb-1">Worked solution</div><div>${correctOpt.text}</div><div class="mt-2">${formatExplanation(correctOpt.rationale)}</div>`;
+        userScores = { ...userScores, [qKey]: false };
       }
 
+      if (qId === 12 && sqIdx === 1) {
+        feedbackEl.innerHTML += `<figure class="geometry-figure"><svg viewBox="0 0 480 420" role="img" aria-label="Circle of radius 5 centred at B intersects the 30 degree ray at two points C1 and C2" stroke="#334155" stroke-width="2">${constructionDiagram(true)}</svg></figure>`;
+      }
+      feedbackEl.classList.add('math-copy');
       feedbackEl.classList.remove('hidden');
       updateScore();
 
@@ -655,9 +702,10 @@
       quizData.forEach(q => totalQuestions += q.subQuestions.length);
 
       let answeredCount = Object.keys(userScores).length;
-      let correctCount = Object.values(userScores).filter(Boolean).length;
+      let correctCount = Object.values(userScores).filter(score => score === true).length;
+      let choiceCount = Object.values(userScores).filter(score => typeof score === 'boolean').length;
 
-      document.getElementById('score-display').innerText = `${correctCount} / ${totalQuestions} Correct (${answeredCount} Done)`;
+      document.getElementById('score-display').innerText = `${answeredCount} / ${totalQuestions} Reviewed · Choices: ${correctCount}/${choiceCount} correct`;
     }
 
     function filterSection(sec) {

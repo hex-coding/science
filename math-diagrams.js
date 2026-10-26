@@ -70,7 +70,7 @@ function geometryDiagram(questionId) {
         diagramLine([240, 180], [240, 40], 'stroke="#0f766e"') + diagramLine([240, 180], [350, 74], 'stroke="#be123c" stroke-dasharray="5 4"') +
         '<path d="M 240 160 H 260 V 180" fill="none"/>' +
         [[437, 186, 'A'], [297, 54, 'B'], [30, 186, 'C'], [170, 315, 'D'], [230, 30, 'E'], [356, 72, 'F'], [244, 202, 'O']].map(args => diagramText(...args)).join('') +
-        diagramText(300, 160, '5x − 4') + diagramText(105, 222, '3x + 24') + diagramText(140, 100, '∠BOE = 2y + 4');
+        diagramText(300, 160, '5x − 4') + diagramText(105, 222, '3x + 24') + diagramText(45, 100, '∠BOE = 2y + 4');
       break;
     case 2:
       description = 'Obtuse triangle ABC with D on AB, E on AC, DE parallel to BC, and BC extended to F.';
@@ -121,5 +121,5 @@ function geometryDiagram(questionId) {
     default:
       return '';
   }
-  return `<figure class="geometry-figure"><svg viewBox="0 0 480 ${height}" role="img" aria-label="${description}" xmlns="http://www.w3.org/2000/svg" stroke="#334155" stroke-width="2" stroke-linejoin="round"><title>${description}</title>${drawing}</svg><figcaption>${questionId === 7 || questionId === 8 ? 'Coordinate grid: 1 unit per square.' : 'Schematic diagram; not to scale.'}</figcaption></figure>`;
+  return `<figure class="geometry-figure"><svg viewBox="0 0 480 ${height}" role="img" aria-label="${description}" xmlns="http://www.w3.org/2000/svg" stroke="#334155" stroke-width="2" stroke-linejoin="round"><title>${description}</title>${drawing}</svg><figcaption>${questionId === 12 ? 'Parts (c &amp; d). ' : ''}${questionId === 7 || questionId === 8 ? 'Coordinate grid: 1 unit per square.' : 'Schematic diagram; not to scale.'}</figcaption></figure>`;
 }
